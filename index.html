@@ -331,7 +331,9 @@
         }
 
         function onKeyDownEvent(activeCell, event){
-            document.getElementById("debug").innerHTML=activeCell+" "+event.key;
+            document.getElementById("debug").innerHTML=activeCell+" "+JSON.stringify(event);
+            console.log(event);
+            console.log(JSON.stringify(event));
             if(event.key==="Backspace"){
                 onBackspace(activeCell, event);
             }else{
