@@ -344,7 +344,7 @@
                             if(cellValue!=="" && cellValue!==event.key && event.key!="" && event.key>="0" && event.key<="9"){
                                 document.getElementById(activeCell).value=event.key;
                             }
-                            moveToNextCell(activeCell);
+                            // moveToNextCell(activeCell);
                         }
                     }    
                 , 1);
@@ -357,6 +357,7 @@
                 document.getElementById(""+activeCell).value = "";
             }else{
                 // if entered value is valid then it will be handled by onKeyDownEvent()
+                moveToNextCell(activeCell);
             }
         }
 
