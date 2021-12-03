@@ -21,7 +21,9 @@
 
 .country-code-group{
     display: flex;
-    flex-direction: row;
+    /* flex-direction: row; */
+    flex-direction: row-reverse;
+        justify-content: flex-end;
 }
 
 .mobile{
@@ -44,12 +46,13 @@
 
 .country-code{
     font-size: 30px;
-    width: 112px;
+    width: fit-content;
 }
 
 .country-code-dropdown{
     width:20px;
     font-size: 15px;
+    margin-left:5px;
 }
 
 .chat-btn{
@@ -69,8 +72,8 @@
     }
 
     .country-code-group{
-        flex-direction: row-reverse;
-        justify-content: flex-end;
+        /* flex-direction: row-reverse;
+        justify-content: flex-end; */
         margin-bottom: 10px;
     }
 
@@ -82,11 +85,9 @@
 
     .country-code{
         font-size: 25px;
-        width: fit-content;
     }
 
     .country-code-dropdown{
-        margin-left:5px;
         border: 1px solid black;
         border-radius: 5px;
     }   
