@@ -289,16 +289,16 @@
                         (+91)
                     </div>
                     <div>
-                        <input id="0" class="mobile" value="" oninput="onMobileNumberChange('0')" onkeydown="onKeyDownEvent('0', event)" maxlength="1" style="margin:0">
-                        <input id="1" class="mobile" value="" oninput="onMobileNumberChange('1')" onkeydown="onKeyDownEvent('1', event)" maxlength="1">
-                        <input id="2" class="mobile" value="" oninput="onMobileNumberChange('2')" onkeydown="onKeyDownEvent('2', event)" maxlength="1">
-                        <input id="3" class="mobile" value="" oninput="onMobileNumberChange('3')" onkeydown="onKeyDownEvent('3', event)" maxlength="1">
-                        <input id="4" class="mobile" value="" oninput="onMobileNumberChange('4')" onkeydown="onKeyDownEvent('4', event)" maxlength="1">
-                        <input id="5" class="mobile" value="" oninput="onMobileNumberChange('5')" onkeydown="onKeyDownEvent('5', event)" maxlength="1">
-                        <input id="6" class="mobile" value="" oninput="onMobileNumberChange('6')" onkeydown="onKeyDownEvent('6', event)" maxlength="1">
-                        <input id="7" class="mobile" value="" oninput="onMobileNumberChange('7')" onkeydown="onKeyDownEvent('7', event)" maxlength="1">
-                        <input id="8" class="mobile" value="" oninput="onMobileNumberChange('8')" onkeydown="onKeyDownEvent('8', event)" maxlength="1">
-                        <input id="9" class="mobile" value="" oninput="onMobileNumberChange('9')" onkeydown="onKeyDownEvent('9', event)" maxlength="1">
+                        <input id="0" class="mobile" value="" oninput="onMobileNumberChange('0')" onkeydown="onKeyDownEvent('0', event)" maxlength="2" style="margin:0">
+                        <input id="1" class="mobile" value="" oninput="onMobileNumberChange('1')" onkeydown="onKeyDownEvent('1', event)" maxlength="2">
+                        <input id="2" class="mobile" value="" oninput="onMobileNumberChange('2')" onkeydown="onKeyDownEvent('2', event)" maxlength="2">
+                        <input id="3" class="mobile" value="" oninput="onMobileNumberChange('3')" onkeydown="onKeyDownEvent('3', event)" maxlength="2">
+                        <input id="4" class="mobile" value="" oninput="onMobileNumberChange('4')" onkeydown="onKeyDownEvent('4', event)" maxlength="2">
+                        <input id="5" class="mobile" value="" oninput="onMobileNumberChange('5')" onkeydown="onKeyDownEvent('5', event)" maxlength="2">
+                        <input id="6" class="mobile" value="" oninput="onMobileNumberChange('6')" onkeydown="onKeyDownEvent('6', event)" maxlength="2">
+                        <input id="7" class="mobile" value="" oninput="onMobileNumberChange('7')" onkeydown="onKeyDownEvent('7', event)" maxlength="2">
+                        <input id="8" class="mobile" value="" oninput="onMobileNumberChange('8')" onkeydown="onKeyDownEvent('8', event)" maxlength="2">
+                        <input id="9" class="mobile" value="" oninput="onMobileNumberChange('9')" onkeydown="onKeyDownEvent('9', event)" maxlength="2">
 
                     </div>
                 </div>
@@ -332,31 +332,28 @@
 
         function onKeyDownEvent(activeCell, event){
             document.getElementById("debug").innerHTML=activeCell+" "+JSON.stringify(event);
-            console.log(event);
-            console.log(JSON.stringify(event));
             if(event.key==="Backspace"){
                 onBackspace(activeCell, event);
-            }else{
-                setTimeout(
-                    function (){
-                        if(validateSingleCell(activeCell, event)){
-                            let cellValue = document.getElementById(activeCell).value;
-                            if(cellValue!=="" && cellValue!==event.key && event.key!="" && event.key>="0" && event.key<="9"){
-                                document.getElementById(activeCell).value=event.key;
-                            }
-                            // moveToNextCell(activeCell);
-                        }
-                    }    
-                , 1);
             }
         }
 
+        let currentCellValues = ["","","","","","","","","",""];
         function onMobileNumberChange(activeCell){
             let cellValue = document.getElementById(activeCell).value;
             if(cellValue!="" && (cellValue<"0" || cellValue>"9") ){
                 document.getElementById(""+activeCell).value = "";
             }else{
-                // if entered value is valid then it will be handled by onKeyDownEvent()
+                let currentCellValue = currentCellValues[activeCell];
+                let newCellValue = document.getElementById(activeCell).value;
+
+                if(currentCellValue!=="" && currentCellValue!==newCellValue 
+                    && newCellValue!="" && newCellValue>="0" && newCellValue<="9"){
+                        document.getElementById(activeCell).value = 
+                            (newCellValue.substring(0,1)===currentCellValue) ? newCellValue.substring(1,2) : newCellValue.substring(0,1);
+                }
+                currentCellValues[activeCell] = document.getElementById(activeCell).value;
+
+
                 moveToNextCell(activeCell);
             }
         }
@@ -379,15 +376,19 @@
         }
 
         function onBackspace(activeCell, event){ 
-            if(event.key==="Backspace" && document.getElementById(activeCell).value===""){
-                let previousCell = parseInt(activeCell)-1;
-                if(previousCell>=0){
-                    document.getElementById(""+activeCell).blur();
-                    document.getElementById(""+previousCell).focus();
-                    document.getElementById(""+previousCell).value="";
-                }
-            }
-            
+            setTimeout(
+                ()=>{
+                    if(event.key==="Backspace"){  
+                        currentCellValues[activeCell] = "";
+                        let previousCell = parseInt(activeCell)-1;
+                        if(previousCell>=0){
+                            document.getElementById(""+activeCell).blur();
+                            document.getElementById(""+previousCell).focus();
+                            document.getElementById(""+previousCell).value="";
+                        }
+                    }
+                }, 10
+            );
         }
 
         function getMobileNumber(){
